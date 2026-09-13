@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config/site";
+---
+
+<BaseLayout
+  title={`Page Not Found | ${SITE.name}`}
+  description="This page doesn't exist. Head back to the file extension lookup tool."
+  path="/404"
+  noIndex
+>
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">404</span>
+      <h1>Page not found</h1>
+      <p class="subtitle">The page you're looking for doesn't exist, or may have moved.</p>
+    </header>
+    <div class="result-card error-card">
+      <p>Here are a few places to go instead:</p>
+      <div class="category-index">
+        <a href="/">&larr; File extension lookup</a>
+        <a href="/faq/">FAQ</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

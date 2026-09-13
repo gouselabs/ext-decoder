@@ -1,0 +1,77 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import { SITE, DEFAULT_KEYWORDS } from "../config/site";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path only, e.g. "/file-extension/heic". Defaults to the current URL's pathname. */
+  path?: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  /** Extra keywords specific to this page, merged with DEFAULT_KEYWORDS. */
+  keywords?: string[];
+  noIndex?: boolean;
+}
+
+const { title, description, path, structuredData, keywords = [], noIndex = false } = Astro.props;
+const canonicalPath = path ?? Astro.url.pathname;
+const canonicalURL = new URL(canonicalPath, Astro.site);
+
+const mergedKeywords = [...new Set([...keywords, ...DEFAULT_KEYWORDS])].join(", ");
+const structuredDataList = structuredData ? (Array.isArray(structuredData) ? structuredData : [structuredData]) : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={mergedKeywords} />
+    <meta name="author" content={SITE.parentBrand} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content={noIndex ? "noindex, follow" : "index, follow"} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content={SITE.name} />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    {SITE.googleAnalyticsId && (
+      <>
+        {/* Google tag (gtag.js) */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleAnalyticsId}`} is:inline />
+        <script is:inline define:vars={{ gaId: SITE.googleAnalyticsId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag("js", new Date());
+          gtag("config", gaId);
+        </script>
+      </>
+    )}
+
+    {structuredDataList.map((data) => (
+      <script type="application/ld+json" set:html={JSON.stringify(data)} is:inline />
+    ))}
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <SiteHeader />
+    <div class="page">
+      <slot />
+    </div>
+    <SiteFooter />
+  </body>
+</html>

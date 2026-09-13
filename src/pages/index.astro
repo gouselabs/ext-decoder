@@ -1,0 +1,85 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Lookup from "../components/Lookup.astro";
+import FAQ from "../components/FAQ.astro";
+import { GENERAL_FAQ } from "../data/faq";
+import { EXTENSIONS } from "../data/extensions";
+import { SITE } from "../config/site";
+
+const pageTitle = "File Extension Lookup — What Does .heic, .mkv, .tar.gz Mean?";
+const title = `${pageTitle} | ${SITE.name}`;
+const description =
+  "Paste any filename to instantly learn what its extension means: file type, purpose, software, platforms, and safety guidance. 100% local in your browser — no upload, no sign-up.";
+
+const keywords = [
+  "file extension identifier",
+  "file extension meaning tool",
+  "what is a .heic file",
+  "what is a .mkv file",
+  "what is a .tar.gz file",
+  "file extension safety check",
+  "compound file extension checker",
+  SITE.name.toLowerCase(),
+];
+
+const popularExtensions = ["heic", "mkv", "tar.gz", "pdf", "docx", "zip", "svg", "epub", "iso", "apk", "webp", "json"];
+const popularEntries = popularExtensions
+  .map((ext) => EXTENSIONS.find((e) => e.ext === ext))
+  .filter((e): e is NonNullable<typeof e> => Boolean(e));
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: SITE.name,
+    url: SITE.url,
+    applicationCategory: "UtilitiesApplication",
+    operatingSystem: "Any (runs in a web browser)",
+    description,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    publisher: { "@type": "Organization", name: SITE.parentBrand, url: SITE.parentUrl },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: GENERAL_FAQ.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} keywords={keywords} structuredData={structuredData} path="/">
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">Runs 100% in your browser</span>
+      <h1>What does that file extension mean?</h1>
+      <p class="subtitle">
+        Paste a filename — even a tricky one like <code>archive.tar.gz</code> or <code>.gitignore</code> — and
+        instantly see its file type, purpose, common software, and safety guidance.
+      </p>
+    </header>
+
+    <Lookup />
+
+    <section class="section" aria-labelledby="popular-heading">
+      <h2 id="popular-heading">Browse popular file extensions</h2>
+      <p>Jump straight to a detailed reference page for a specific format:</p>
+      <div class="category-index">
+        {popularEntries.map((entry) => (
+          <a href={`/file-extension/${entry.ext}/`}>.{entry.ext}</a>
+        ))}
+      </div>
+    </section>
+
+    <FAQ items={GENERAL_FAQ} />
+    <p class="see-more-faq"><a href="/faq/">See the full FAQ &rarr;</a></p>
+
+    <div class="privacy-note">
+      <strong>Privacy:</strong> Your input is never uploaded, logged, or sent anywhere. Filename parsing and the
+      entire extension dataset run locally in your browser, so this tool works identically offline once loaded.
+    </div>
+  </main>
+</BaseLayout>

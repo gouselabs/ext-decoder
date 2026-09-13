@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import FAQ from "../components/FAQ.astro";
+import { GENERAL_FAQ, SITE_FAQ } from "../data/faq";
+import { SITE } from "../config/site";
+
+const title = `Frequently Asked Questions | ${SITE.name}`;
+const description = `Answers to common questions about how ${SITE.name} identifies file extensions, handles edge cases like compound extensions and hidden files, and protects your privacy.`;
+
+const allFaq = [...GENERAL_FAQ, ...SITE_FAQ];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: allFaq.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={["file extension lookup faq", "how does file extension lookup work", `${SITE.name.toLowerCase()} faq`]}
+  structuredData={structuredData}
+  path="/faq/"
+>
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">Help</span>
+      <h1>Frequently asked questions</h1>
+      <p class="subtitle">Everything about how the lookup works, edge cases it handles, and how we treat your data.</p>
+    </header>
+
+    <FAQ items={GENERAL_FAQ} />
+
+    <section class="section" aria-labelledby="about-site-heading">
+      <h2 id="about-site-heading">About this site</h2>
+      {SITE_FAQ.map((item) => (
+        <div class="faq-item">
+          <h3>{item.question}</h3>
+          <p>{item.answer}</p>
+        </div>
+      ))}
+    </section>
+
+    <p class="see-more-faq"><a href="/">&larr; Back to the file extension lookup tool</a></p>
+  </main>
+</BaseLayout>

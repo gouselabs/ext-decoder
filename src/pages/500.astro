@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config/site";
+---
+
+<BaseLayout
+  title={`Something Went Wrong | ${SITE.name}`}
+  description="Something went wrong loading this page. Head back to the file extension lookup tool."
+  path="/500"
+  noIndex
+>
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">500</span>
+      <h1>Something went wrong</h1>
+      <p class="subtitle">
+        An unexpected error occurred. Since this whole tool runs as static files with no backend, this is rare —
+        try reloading the page.
+      </p>
+    </header>
+    <div class="result-card error-card">
+      <p>If reloading doesn't help, here's where to go instead:</p>
+      <div class="category-index">
+        <a href="/">&larr; File extension lookup</a>
+        <a href="/contact/">Report this problem</a>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config/site";
+
+const title = `Terms & Conditions | ${SITE.name}`;
+const description = `The terms for using ${SITE.name}, a free file extension reference tool. No warranty is made about the accuracy or safety implications of any specific file.`;
+const lastUpdated = "September 13, 2026";
+---
+
+<BaseLayout title={title} description={description} path="/terms/">
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">Legal</span>
+      <h1>Terms &amp; Conditions</h1>
+      <p class="subtitle">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="result-card prose-card">
+      <h2>Acceptance of terms</h2>
+      <p>
+        By using {SITE.name} (the "Service"), you agree to these terms. If you don't agree, please don't use the
+        Service.
+      </p>
+
+      <h2>What the Service is</h2>
+      <p>
+        {SITE.name} is a free, browser-based reference tool that provides general information about file
+        extensions — commonly associated file formats, software, platforms, and general safety guidance. It runs
+        entirely client-side and does not process, store, or inspect any actual file content.
+      </p>
+
+      <h2>No safety or accuracy guarantee</h2>
+      <p>
+        Information provided by the Service is for general reference only and is based on common, typical usage
+        of a given extension. <strong>A file extension is chosen by whoever created the file and is never proof of
+        that file's real, actual content.</strong> The Service cannot and does not verify the contents of any
+        specific file, and cannot tell you whether a particular file is safe or malicious. You are solely
+        responsible for how you handle any file, including using appropriate antivirus/security tools and
+        exercising judgment about the file's source.
+      </p>
+
+      <h2>No liability</h2>
+      <p>
+        The Service is provided "as is" without warranties of any kind, express or implied, including but not
+        limited to accuracy, completeness, or fitness for a particular purpose. To the fullest extent permitted by
+        law, {SITE.parentBrand} and the Service's operator are not liable for any damages arising from your use of,
+        or reliance on, the Service or any information it provides.
+      </p>
+
+      <h2>Third-party names</h2>
+      <p>
+        Software and company names mentioned (e.g. Adobe Photoshop, Microsoft Word) are trademarks of their
+        respective owners and are referenced solely for descriptive, informational purposes. The Service is not
+        affiliated with, endorsed by, or sponsored by any software vendor mentioned.
+      </p>
+
+      <h2>Acceptable use</h2>
+      <p>
+        Don't attempt to disrupt, scrape excessively, reverse-engineer for malicious purposes, or use the Service
+        in any way that violates applicable law.
+      </p>
+
+      <h2>Changes</h2>
+      <p>
+        These terms may be updated from time to time; the "last updated" date above reflects the latest revision.
+        Continued use after a change constitutes acceptance of the updated terms.
+      </p>
+
+      <h2>Contact</h2>
+      <p>Questions about these terms? See our <a href="/contact/">Contact page</a>.</p>
+    </div>
+  </main>
+</BaseLayout>

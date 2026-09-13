@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config/site";
+
+const title = `Privacy Policy | ${SITE.name}`;
+const description = `How ${SITE.name} handles your data: no uploads, no accounts, and never any tracking of what you type. Read the full privacy policy.`;
+const lastUpdated = "September 13, 2026";
+---
+
+<BaseLayout title={title} description={description} path="/privacy-policy/" noIndex={false}>
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">Legal</span>
+      <h1>Privacy Policy</h1>
+      <p class="subtitle">Last updated: {lastUpdated}</p>
+    </header>
+
+    <div class="result-card prose-card">
+      <h2>The short version</h2>
+      <p>
+        {SITE.name} does not require an account, does not ask for personal information, and does not upload,
+        transmit, or store anything you type into the lookup tool. Filename parsing and the entire extension
+        dataset run locally in your browser using static, bundled code — your input never leaves your device as
+        part of using the tool.
+      </p>
+
+      <h2>What we do not collect</h2>
+      <ul class="tag-list">
+        <li>No filenames or content you type into the lookup box</li>
+        <li>No accounts, passwords, or profile data</li>
+        <li>No advertising trackers or ad personalization</li>
+        <li>No sale of any data to third parties</li>
+      </ul>
+
+      <h2>Analytics</h2>
+      <p>
+        This site uses <strong>Google Analytics</strong> (Google's "gtag.js") to understand aggregate traffic
+        patterns — roughly how many people visit, which pages are popular, general device/browser type, and
+        approximate geographic region. Google Analytics operates by setting cookies in your browser and may
+        process your IP address to derive that approximate region.
+      </p>
+      <p>
+        <strong>This is entirely separate from the lookup tool itself.</strong> Google Analytics only knows that
+        someone visited a given page (e.g. "/file-extension/heic/") — it does not, and cannot, see what you type
+        into the filename input, since that never leaves your browser as described above. We do not use Analytics
+        data to identify individual visitors.
+      </p>
+      <p>
+        See{" "}
+        <a href="https://policies.google.com/privacy" rel="noopener" target="_blank">Google's Privacy Policy</a>
+        {" "}for how Google handles this data. You can opt out of Google Analytics tracking across all sites using
+        the{" "}
+        <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener" target="_blank">
+          Google Analytics Opt-out Browser Add-on
+        </a>
+        , or block cookies/trackers generally via your browser's privacy settings or an ad/tracker blocker.
+      </p>
+
+      <h2>What may be collected by our hosting provider</h2>
+      <p>
+        This site is hosted as static files on Cloudflare Pages. Like virtually any website, the underlying
+        infrastructure that delivers these pages to your browser may process standard technical request data
+        (such as IP address, user agent, and request timestamps) as part of normal web delivery and security
+        (e.g. DDoS protection) — this is handled entirely by Cloudflare's infrastructure, not by any code we
+        wrote, and we do not have access to per-visitor logs. See{" "}
+        <a href="https://www.cloudflare.com/privacypolicy/" rel="noopener" target="_blank">Cloudflare's Privacy Policy</a>{" "}
+        for details on how they handle this.
+      </p>
+
+      <h2>Cookies &amp; local browser storage</h2>
+      <p>
+        Aside from the cookies Google Analytics sets (see <strong>Analytics</strong> above), this site does not
+        use cookies or browser storage (localStorage/sessionStorage) of its own to remember anything about you
+        between visits. If that changes, this policy will be updated to say exactly what is stored and why.
+      </p>
+
+      <h2>Third-party links</h2>
+      <p>
+        Pages on this site link to third-party software vendors' names (for informational purposes, e.g. "commonly
+        opened with Adobe Photoshop") and to our other projects. We aren't responsible for the privacy practices of
+        any external site you navigate to.
+      </p>
+
+      <h2>Children's privacy</h2>
+      <p>This site does not knowingly collect personal information from anyone, including children.</p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If this policy changes, the "last updated" date above will change accordingly. Continued use of the site
+        after changes means you accept the updated policy.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy? See our <a href="/contact/">Contact page</a>.
+      </p>
+    </div>
+  </main>
+</BaseLayout>

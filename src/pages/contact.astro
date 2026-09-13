@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config/site";
+
+const title = `Contact Us | ${SITE.name}`;
+const description = `Get in touch about ${SITE.name} — report an incorrect file extension, suggest a new one, or ask a question.`;
+---
+
+<BaseLayout title={title} description={description} path="/contact/" keywords={["contact ext decoder", "report file extension error"]}>
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">Get in touch</span>
+      <h1>Contact us</h1>
+      <p class="subtitle">
+        Found an incorrect file extension, want to suggest one that's missing, or just have a question? We'd like
+        to hear from you.
+      </p>
+    </header>
+
+    <div class="result-card prose-card">
+      <h2>Email</h2>
+      <p>
+        The best way to reach us is email: <a href={`mailto:${SITE.contactEmail}`}>{SITE.contactEmail}</a>
+      </p>
+
+      <h2>Elsewhere</h2>
+      <ul class="tag-list">
+        <li><a href={SITE.github} rel="noopener">GitHub</a></li>
+        <li><a href={SITE.linkedin} rel="noopener">LinkedIn</a></li>
+      </ul>
+
+      <h2>No contact form?</h2>
+      <p>
+        {SITE.name} is intentionally backend-free — there's nowhere to store form submissions without introducing
+        a server, which would go against the whole point of the tool. Email works better anyway: you'll get a
+        direct reply.
+      </p>
+    </div>
+
+    <p class="see-more-faq"><a href="/">&larr; Back to the file extension lookup tool</a></p>
+  </main>
+</BaseLayout>

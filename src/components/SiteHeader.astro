@@ -1,0 +1,31 @@
+---
+import { SITE } from "../config/site";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/faq/", label: "FAQ" },
+  { href: "/about/", label: "About" },
+  { href: "/contact/", label: "Contact" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-nav">
+  <div class="site-nav-inner">
+    <a href="/" class="brand-mark">
+      <span class="brand-mark-dot" aria-hidden="true"></span>
+      {SITE.brandMark}
+    </a>
+    <nav class="site-nav-links" aria-label="Primary">
+      {NAV_LINKS.map((link) => {
+        const isActive = link.href === "/" ? currentPath === "/" : currentPath.startsWith(link.href);
+        return (
+          <a href={link.href} aria-current={isActive ? "page" : undefined}>
+            {link.label}
+          </a>
+        );
+      })}
+    </nav>
+  </div>
+</header>

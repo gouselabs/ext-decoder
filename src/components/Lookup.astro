@@ -1,0 +1,100 @@
+---
+interface Props {
+  /** Pre-fill the input, used by static per-extension SEO pages. */
+  initialValue?: string;
+}
+const { initialValue = "" } = Astro.props;
+
+const EXAMPLES = [".heic", "video.mkv", "archive.tar.gz", ".gitignore", "Dockerfile", "document.pages"];
+---
+
+<section class="lookup-card" aria-labelledby="lookup-heading">
+  <h2 id="lookup-heading" class="visually-hidden">File extension lookup</h2>
+  <form id="lookup-form" autocomplete="off">
+    <div class="input-row">
+      <div class="input-group">
+        <label for="filename-input">Enter or paste a filename</label>
+        <input
+          id="filename-input"
+          name="filename"
+          type="text"
+          inputmode="text"
+          spellcheck="false"
+          autocapitalize="off"
+          placeholder="e.g. photo.heic"
+          value={initialValue}
+        />
+      </div>
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">Analyze</button>
+        <button type="button" id="reset-button" class="btn btn-secondary">Clear</button>
+      </div>
+    </div>
+    <p id="input-warning" class="input-warning" role="alert" hidden></p>
+    <p class="input-hint">No upload, no sign-up — everything is analyzed locally in your browser.</p>
+    <div class="examples" role="group" aria-label="Example filenames">
+      {EXAMPLES.map((example) => (
+        <button type="button" class="example-chip" data-example={example}>{example}</button>
+      ))}
+    </div>
+  </form>
+</section>
+
+<div id="result-area" aria-live="polite"></div>
+
+<script>
+  import { lookupFilename } from "../lib/lookup";
+  import { validateFilenameInput } from "../lib/validation/filenameInput";
+  import { renderResult } from "./resultRenderer";
+
+  const form = document.getElementById("lookup-form") as HTMLFormElement;
+  const input = document.getElementById("filename-input") as HTMLInputElement;
+  const resultArea = document.getElementById("result-area") as HTMLElement;
+  const warningEl = document.getElementById("input-warning") as HTMLElement;
+  const resetButton = document.getElementById("reset-button") as HTMLButtonElement;
+
+  function analyze(rawValue: string) {
+    const { value, warning } = validateFilenameInput(rawValue);
+
+    if (warning) {
+      warningEl.textContent = warning;
+      warningEl.hidden = false;
+    } else {
+      warningEl.hidden = true;
+    }
+
+    const result = lookupFilename(value);
+    renderResult(resultArea, result);
+  }
+
+  let debounceHandle: ReturnType<typeof setTimeout> | undefined;
+  input.addEventListener("input", () => {
+    if (debounceHandle) clearTimeout(debounceHandle);
+    debounceHandle = setTimeout(() => analyze(input.value), 120);
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (debounceHandle) clearTimeout(debounceHandle);
+    analyze(input.value);
+  });
+
+  resetButton.addEventListener("click", () => {
+    input.value = "";
+    warningEl.hidden = true;
+    analyze("");
+    input.focus();
+  });
+
+  document.querySelectorAll<HTMLButtonElement>(".example-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const example = chip.dataset.example ?? "";
+      input.value = example;
+      analyze(example);
+      input.focus();
+    });
+  });
+
+  // Initial render (handles both the empty state and any server-provided initial value).
+  analyze(input.value);
+</script>

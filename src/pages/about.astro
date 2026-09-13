@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE } from "../config/site";
+
+const title = `About Us | ${SITE.name}`;
+const description = `${SITE.name} is a free, privacy-first file extension reference built by ${SITE.parentBrand}. Learn what it does and why it exists.`;
+---
+
+<BaseLayout title={title} description={description} path="/about/" keywords={["about ext decoder", "gouse labs", "file extension tool creator"]}>
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">About</span>
+      <h1>About {SITE.name}</h1>
+      <p class="subtitle">A small, focused tool for a genuinely common question.</p>
+    </header>
+
+    <div class="result-card prose-card">
+      <h2>Why this exists</h2>
+      <p>
+        Typing a filename into a search engine to figure out what it is — or whether it's safe to open — is a
+        common need. Most existing answers either want you to upload the file somewhere first or bury a real
+        answer under ads and unrelated content. {SITE.name} answers the single question "what does this extension
+        mean?" from the filename alone, instantly, with no upload and no account.
+      </p>
+
+      <h2>Who built it</h2>
+      <p>
+        {SITE.name} is built and maintained by <strong>{SITE.parentBrand}</strong>, the personal brand of{" "}
+        <a href={SITE.linkedin} rel="noopener">Gouse Shaikh</a>, a backend software engineer who builds small,
+        practical tools he wants to use himself. Source and other projects are on{" "}
+        <a href={SITE.github} rel="noopener">GitHub</a>.
+      </p>
+
+      <h2>Other tools from {SITE.parentBrand}</h2>
+      <ul class="tag-list">
+        {SITE.siblingSites.map((site) => (
+          <li><a href={site.url} rel="noopener">{site.name}</a></li>
+        ))}
+      </ul>
+
+      <h2>How it works</h2>
+      <p>
+        The entire extension dataset — over 150 formats, plus known ambiguous extensions, dotfiles, and
+        extensionless filenames — ships as static data bundled with the page. Parsing and lookup both run
+        synchronously in your browser with plain TypeScript; nothing is ever sent to a server. See the{" "}
+        <a href="/faq/">FAQ</a> for details on how specific edge cases (compound extensions, hidden files, unknown
+        extensions) are handled.
+      </p>
+
+      <h2>What it isn't</h2>
+      <p>
+        {SITE.name} identifies file <em>formats</em> from filenames. It never inspects real file bytes or content
+        (by design — there's no upload), so it cannot and does not make any claim about a specific file's actual,
+        true safety. See our <a href="/privacy-policy/">Privacy Policy</a> and{" "}
+        <a href="/terms/">Terms &amp; Conditions</a> for the full details.
+      </p>
+    </div>
+
+    <p class="see-more-faq"><a href="/contact/">Have feedback or found an error? Contact us &rarr;</a></p>
+  </main>
+</BaseLayout>

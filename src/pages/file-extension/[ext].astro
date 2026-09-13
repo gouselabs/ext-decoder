@@ -1,0 +1,129 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Lookup from "../../components/Lookup.astro";
+import FAQ from "../../components/FAQ.astro";
+import { EXTENSIONS } from "../../data/extensions";
+import { buildExtensionFAQ } from "../../data/faq";
+import { SITE } from "../../config/site";
+
+export function getStaticPaths() {
+  return EXTENSIONS.map((entry) => ({
+    params: { ext: entry.ext },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+const pageTitle = `.${entry.ext} File Extension — What Is It & How Do You Open It?`;
+const title = `${pageTitle} | ${SITE.name}`;
+const description = `.${entry.ext} is a ${entry.category.toLowerCase()} format (${entry.name}). ${entry.description}`.slice(0, 155);
+const faqItems = buildExtensionFAQ(entry);
+
+const keywords = [
+  `.${entry.ext} file`,
+  `what is .${entry.ext}`,
+  `.${entry.ext} file extension`,
+  `open .${entry.ext} file`,
+  `.${entry.ext} file type`,
+  entry.name.toLowerCase(),
+  entry.category.toLowerCase(),
+  ...entry.aliases.map((a) => `.${a} file`),
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqItems.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+
+const riskLabel = { low: "Generally low risk", medium: "Use some caution", high: "Handle with care" }[entry.riskLevel];
+const editableLabel = { yes: "Yes, with common software", partial: "Partially / with the right tool", no: "Not really — it's a runnable or packaged format" }[
+  entry.editable
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  structuredData={structuredData}
+  path={`/file-extension/${entry.ext}/`}
+>
+  <main id="main-content">
+    <header class="site-header">
+      <span class="eyebrow">{entry.category}</span>
+      <h1>.{entry.ext} — {entry.name}</h1>
+      <p class="subtitle">{entry.description}</p>
+    </header>
+
+    <div class="result-card">
+      {entry.aliases.length > 0 && (
+        <p class="result-ext">Also known as: {entry.aliases.map((a) => `.${a}`).join(", ")}</p>
+      )}
+      <div class="fact-grid">
+        <div class="fact">
+          <dt>Commonly opened with</dt>
+          <dd>
+            <ul class="tag-list">
+              {entry.software.map((s) => <li>{s}</li>)}
+            </ul>
+          </dd>
+        </div>
+        <div class="fact">
+          <dt>Supported platforms</dt>
+          <dd>
+            <ul class="tag-list">
+              {entry.platforms.map((p) => <li>{p}</li>)}
+            </ul>
+          </dd>
+        </div>
+        <div class="fact">
+          <dt>Editable?</dt>
+          <dd>{editableLabel}</dd>
+        </div>
+        <div class="fact">
+          <dt>Viewable without special tools?</dt>
+          <dd>{entry.viewable ? "Usually, yes" : "Not directly — needs the right app"}</dd>
+        </div>
+        {entry.conversions.length > 0 && (
+          <div class="fact">
+            <dt>Commonly converted to</dt>
+            <dd>
+              <ul class="tag-list">
+                {entry.conversions.map((c) => <li>.{c}</li>)}
+              </ul>
+            </dd>
+          </div>
+        )}
+        <div class="fact">
+          <dt>Inherent format risk</dt>
+          <dd>
+            <span class={`risk-pill risk-${entry.riskLevel}`}><span class="risk-dot"></span>{riskLabel}</span>
+          </dd>
+        </div>
+      </div>
+      <div class="notice notice-safety">
+        <strong class="notice-title">Safety guidance (not a guarantee)</strong>
+        <p>{entry.safetyNote}</p>
+      </div>
+    </div>
+
+    <section class="section" aria-labelledby="try-another-heading">
+      <h2 id="try-another-heading">Check another filename</h2>
+      <Lookup initialValue={`file.${entry.ext}`} />
+    </section>
+
+    <FAQ items={faqItems} />
+
+    <div class="privacy-note">
+      <strong>Privacy:</strong> The lookup above runs entirely in your browser. Nothing you type is uploaded, logged, or sent anywhere.
+    </div>
+
+    <p class="see-more-faq"><a href="/">&larr; Back to the file extension lookup tool</a></p>
+  </main>
+</BaseLayout>
