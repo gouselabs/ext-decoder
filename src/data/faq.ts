@@ -56,7 +56,7 @@ export const SITE_FAQ: FAQItem[] = [
   {
     question: "Do you store or track what I type into the search box?",
     answer:
-      "No. There's no analytics tied to individual lookups, no server-side logging of filenames, and no cookies used for tracking. See our Privacy Policy for the full details.",
+      "No — what you type into the lookup box never leaves your browser; there's no server-side logging of filenames. We do use Google Analytics for aggregate, anonymous traffic stats (which pages get visited, roughly how many people), but it has no visibility into what you type. See our Privacy Policy for the full details.",
   },
   {
     question: "I found an incorrect or missing file extension — how do I report it?",

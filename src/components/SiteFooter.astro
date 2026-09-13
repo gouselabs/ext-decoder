@@ -1,5 +1,6 @@
 ---
 import { SITE } from "../config/site";
+import Logo from "./Logo.astro";
 
 const year = new Date().getFullYear();
 
@@ -16,10 +17,10 @@ const FOOTER_LINKS = [
   <div class="footer-inner">
     <div class="footer-brand">
       <a href="/" class="brand-mark">
-        <span class="brand-mark-dot" aria-hidden="true"></span>
+        <Logo size={26} />
         {SITE.brandMark}
       </a>
-      <p>{SITE.tagline}. Runs entirely in your browser — no upload, no sign-up, no tracking.</p>
+      <p>{SITE.tagline}. Runs entirely in your browser — no upload, no sign-up required.</p>
     </div>
 
     <nav class="footer-links" aria-label="Footer">

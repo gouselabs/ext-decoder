@@ -155,13 +155,9 @@ a:hover {
   color: var(--color-primary);
 }
 
-.brand-mark-dot {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 50%;
-  background: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.15);
+.logo-mark {
   flex-shrink: 0;
+  border-radius: 22%;
 }
 
 .site-nav-links {
